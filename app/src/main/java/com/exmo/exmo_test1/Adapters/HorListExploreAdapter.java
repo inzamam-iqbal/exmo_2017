@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.exmo.exmo_test1.Entities.DepartmentEvents;
 import com.exmo.exmo_test1.R;
 import com.exmo.exmo_test1.UnitStallActivity;
+import com.exmo.exmo_test1.utils.ImageUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class HorListExploreAdapter extends ArrayAdapter<DepartmentEvents> {
 
         Log.e("Horizontal",departmentEvents.get(position).getName() );
         timeTXT.setText(departmentEvents.get(position).getName());
-        Picasso.with(context).load(departmentEvents.get(position).getImageUrl()).into(imageView);
+        //Picasso.with(context).load(departmentEvents.get(position).getImageUrl()).into(imageView);
+        ImageUtils.LoadImage(context,departmentEvents.get(position).getImageUrl(),imageView,"events");
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override

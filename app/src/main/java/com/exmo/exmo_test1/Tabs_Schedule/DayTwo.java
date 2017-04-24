@@ -1,16 +1,19 @@
 package com.exmo.exmo_test1.Tabs_Schedule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.exmo.exmo_test1.Adapters.ScheduleListAdapter;
 import com.exmo.exmo_test1.Entities.Schedule;
 import com.exmo.exmo_test1.R;
+import com.exmo.exmo_test1.UnitStallActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,6 +65,13 @@ public class DayTwo extends Fragment {
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(getActivity().getApplicationContext(),
+                        UnitStallActivity.class).putExtra("tag",scheduleItemsKeys.get(i)));
+            }
+        });
 
         return rootView;
     }

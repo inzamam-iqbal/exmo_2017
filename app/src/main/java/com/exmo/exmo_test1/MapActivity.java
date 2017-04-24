@@ -5,11 +5,13 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -49,23 +51,20 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
     private SupportMapFragment mapFragment;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private DrawerLayout mainLayout;
     private ArrayList<Marker> stallMarkers;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.activity_map);
         setTitle("Map");
 
-        mainLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -172,10 +171,9 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
                 int i=0;
                 for (EventLocation eventLocation: eventLocations){
                     LatLng location = new LatLng(eventLocation.getLat(), eventLocation.getLang());
-                    MarkerOptions markerOpt = new MarkerOptions().position(location).
-                            title(eventLocation.getTitle()).visible(false);
+                    MarkerOptions markerOpt = new MarkerOptions().position(location).visible(false);
                     Marker marker =mMap.addMarker(markerOpt);
-                    marker.setTag(eventLocationKey.get(i));
+                    marker.setTag(i);
                     stallMarkers.add(marker);
 
                     i+=1;
@@ -207,12 +205,29 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
-        if(!stallMarkers.contains(marker))
+    public boolean onMarkerClick(final Marker marker) {
+        boolean found = false;
+        for (Marker m:stallMarkers){
+            if (m.getTag()==marker.getTag()){
+                found=true;
+                break;
+            }
+        }
+        if (!found){
             return false;
-        Intent d=new Intent(MapActivity.this,UnitStallActivity.class);
-        d.putExtra("tag",marker.getTag().toString());
-        startActivity(d);
+        }
+
+        Snackbar snackbar1 = Snackbar.make(drawer,
+                eventLocations.get((Integer)marker.getTag()).getTitle(), Snackbar.LENGTH_INDEFINITE).
+                setAction("more detail", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent d=new Intent(MapActivity.this,UnitStallActivity.class);
+                d.putExtra("tag",eventLocationKey.get((Integer)marker.getTag()));
+                startActivity(d);
+            }
+        });
+        snackbar1.show();
         return false;
     }
 

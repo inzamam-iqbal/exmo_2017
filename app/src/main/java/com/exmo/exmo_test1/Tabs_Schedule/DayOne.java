@@ -1,5 +1,6 @@
 package com.exmo.exmo_test1.Tabs_Schedule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,11 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.exmo.exmo_test1.Adapters.ScheduleListAdapter;
 import com.exmo.exmo_test1.Entities.Schedule;
 import com.exmo.exmo_test1.R;
+import com.exmo.exmo_test1.UnitStallActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +29,7 @@ public class DayOne extends Fragment {
     ArrayList<String> scheduleItemsKeys;
     ScheduleListAdapter scheduleListAdapter;
     DatabaseReference dbDay1Ref;
+    ListView listView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class DayOne extends Fragment {
         populateArray();
 
         scheduleListAdapter=new ScheduleListAdapter(getActivity(),scheduleItems,scheduleItemsKeys);
-        ListView listView=(ListView)rootView.findViewById(R.id.list_day_one);
+        listView=(ListView)rootView.findViewById(R.id.list_day_one);
         listView.setAdapter(scheduleListAdapter);
 
         dbDay1Ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -63,7 +67,13 @@ public class DayOne extends Fragment {
             }
         });
 
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(getActivity().getApplicationContext(),
+                        UnitStallActivity.class).putExtra("tag",scheduleItemsKeys.get(i)));
+            }
+        });
 
         return rootView;
     }
