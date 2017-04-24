@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/rel"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="@dimen/stall_size"
+    android:layout_height="@dimen/stall_size">
     <ImageView
-        android:scaleType="matrix"
-        android:id="@+id/imageViewStall"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_width="@dimen/stall_size"
+        android:layout_height="@dimen/stall_size" />
     <TextView
+        android:layout_marginTop="15dp"
         android:textStyle="bold"
-        android:layout_alignBottom="@+id/imageViewStall"
-        android:padding="8dp"
         android:layout_centerHorizontal="true"
         android:text="one"
         android:id="@+id/textViewStallName"

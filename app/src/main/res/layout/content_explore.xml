@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.exmo.exmo_test1.ExploreActivity"
     tools:showIn="@layout/toolbar_explore">
-
-    <!--code here-->
-
-    <ListView
-        android:paddingTop="3dp"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:id="@+id/explore_main_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</RelativeLayout>
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:paddingTop="3dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:id="@+id/explore_main_list"
+            android:layout_height="3300dp"
+            android:layout_width="match_parent" />
+
+    </FrameLayout>
+
+</android.support.v4.widget.NestedScrollView>

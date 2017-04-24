@@ -33,6 +33,9 @@ public class NavBar extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
+        Intent d=new Intent(NavBar.this,ExploreActivity.class);
+        startActivity(d);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,14 +77,11 @@ public class NavBar extends AppCompatActivity
             Intent d=new Intent(NavBar.this,LiveStreamActivity.class);
             startActivity(d);
         }
-//        else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

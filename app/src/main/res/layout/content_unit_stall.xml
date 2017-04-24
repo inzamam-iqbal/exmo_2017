@@ -1,76 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.exmo.exmo_test1.UnitStallActivity"
     tools:showIn="@layout/toolbar_unit_stall">
-
-
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
+        android:layout_height="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
-                android:background="#000"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
-                android:id="@+id/mainImage"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <RatingBar
-                android:padding="5dp"
-                style="?android:attr/ratingBarStyleIndicator"
-                android:theme="@style/RatingBar"
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:stepSize="0.1"
-                android:rating="4.3"
-                android:layout_above="@+id/stallName"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:padding="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="CSE | stall name"
-                android:id="@+id/stallName"
-                android:layout_below="@+id/mainImage"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:padding="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Thsi stal pongjker dbkj  skjd skjd skdj Thsijker dbkj  skjd skjd skdj Thsi stal descrpongjker dbkj  skjd skjdpongjker dbkj  skjd skjd skdj "
-                android:id="@+id/stallDesc"
-                android:layout_below="@+id/stallName"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <org.lucasr.twowayview.TwoWayView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/lvItems"
-                style="@style/TwoWayView"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/stallDesc"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:drawSelectorOnTop="false"/>
-        </RelativeLayout>
-    </ScrollView>
+                android:layout_height="wrap_content">
 
 
-</RelativeLayout>
+                <!--<RatingBar-->
+                    <!--android:padding="5dp"-->
+                    <!--style="?android:attr/ratingBarStyleIndicator"-->
+                    <!--android:theme="@style/RatingBar"-->
+                    <!--android:id="@+id/ratingBar"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:numStars="5"-->
+                    <!--android:stepSize="0.1"-->
+                    <!--android:rating="4.3"-->
+                    <!--android:layout_above="@+id/stallName"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_alignParentEnd="true" />-->
+
+                <TextView
+                    android:padding="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="CSE | stall name"
+                    android:id="@+id/stallName"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:padding="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Thsi stal pongjker dbkj  skjd skjd skdj Thsijker dbkj  skjd skjd skdj Thsi stal descrpongjker dbkj  skjd skjdpongjker dbkj  skjd skjd skdj "
+                    android:id="@+id/stallDesc"
+                    android:layout_below="@+id/stallName"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <org.lucasr.twowayview.TwoWayView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/lvItems"
+                    style="@style/TwoWayView"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@+id/stallDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:drawSelectorOnTop="false"/>
+            </RelativeLayout>
+        </ScrollView>
+
+
+
+    </FrameLayout>
+
+</android.support.v4.widget.NestedScrollView>
+
+
+

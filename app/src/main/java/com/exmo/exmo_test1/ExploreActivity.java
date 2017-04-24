@@ -1,5 +1,6 @@
 package com.exmo.exmo_test1;
 
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.exmo.exmo_test1.Adapters.ExploreMainAdapter;
 import com.exmo.exmo_test1.Entities.DepartmentEvents;
@@ -20,9 +22,11 @@ import java.util.ArrayList;
 
 public class ExploreActivity  extends NavBar {
 
+    ArrayList<Integer> departmentImages;
     ArrayList<String> departmentNames;
     ArrayList<String> eventKeys;
     ArrayList<ArrayList<DepartmentEvents>> allDepartmentEvents;
+    ExploreMainAdapter exploreMainAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +48,38 @@ public class ExploreActivity  extends NavBar {
 
         allDepartmentEvents =new ArrayList<>();
         departmentNames =new ArrayList<>();
+        departmentImages =new ArrayList<>();
         eventKeys = new ArrayList<>();
 
+        final ArrayList<String> allDeps=new ArrayList<>();
+        allDeps.add("Bio Medical Engineering");
+        allDeps.add("Chemical Engineering");
+        allDeps.add("Civil Engineering");
+        allDeps.add("Computer Science Engineering");
+        allDeps.add("Earth Reasource Engineering");
+        allDeps.add("Electrical Engineering");
+        allDeps.add("Electronics and Telecommunication Engineering");
+        allDeps.add("Material Science Engineering");
+        allDeps.add("Mechanical Engineering");
+        allDeps.add("Textile Engineering");
+        allDeps.add("Transport and Logistic");
 
-        final ExploreMainAdapter exploreMainAdapter=new ExploreMainAdapter(ExploreActivity.this, departmentNames, allDepartmentEvents);
+        final ArrayList<Integer> allDepsImg=new ArrayList<>();
+        allDepsImg.add(R.drawable.bme);
+        allDepsImg.add(R.drawable.ch);
+        allDepsImg.add(R.drawable.ce);
+        allDepsImg.add(R.drawable.cse);
+        allDepsImg.add(R.drawable.em);
+        allDepsImg.add(R.drawable.ee);
+        allDepsImg.add(R.drawable.entc);
+        allDepsImg.add(R.drawable.mt);
+        allDepsImg.add(R.drawable.me);
+        allDepsImg.add(R.drawable.tm);
+        allDepsImg.add(R.drawable.tlm);
+
+
+
+        exploreMainAdapter=new ExploreMainAdapter(ExploreActivity.this, departmentNames,departmentImages, allDepartmentEvents);
         ListView listView=(ListView)findViewById(R.id.explore_main_list);
         listView.setAdapter(exploreMainAdapter);
 
@@ -57,17 +89,18 @@ public class ExploreActivity  extends NavBar {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                            departmentNames.add(snapshot.getKey());
+                            departmentNames.add(allDeps.get(Integer.parseInt(snapshot.getKey())));
+                            departmentImages.add(allDepsImg.get(Integer.parseInt(snapshot.getKey())));
+                            Log.e("departmentNames",allDeps.get(Integer.parseInt(snapshot.getKey())));
                             ArrayList<DepartmentEvents> departmentEvents = new ArrayList<>();
                             for (DataSnapshot event: snapshot.getChildren()){
                                 DepartmentEvents temp = event.getValue(DepartmentEvents.class);
                                 temp.setKey(event.getKey());
                                 departmentEvents.add(temp);
-                                Log.e("departmentEvent",departmentEvents.get(0).getName());
-
-                                exploreMainAdapter.notifyDataSetChanged();
                             }
                             allDepartmentEvents.add(departmentEvents);
+                            exploreMainAdapter.notifyDataSetChanged();
+
                         }
                     }
 
@@ -76,9 +109,25 @@ public class ExploreActivity  extends NavBar {
 
                     }
                 });
+    }
 
+    private Boolean exit = false;
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            finish();
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
 
-
+        }
 
     }
 }
