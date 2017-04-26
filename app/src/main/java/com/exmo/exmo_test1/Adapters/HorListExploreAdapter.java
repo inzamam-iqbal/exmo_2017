@@ -60,6 +60,7 @@ public class HorListExploreAdapter extends ArrayAdapter<DepartmentEvents> {
 
                 Intent d=new Intent(context, UnitStallActivity.class);
                 d.putExtra("tag",key);
+                d.putExtra("stallName",departmentEvents.get(final_position).getName()+"");
                 context.startActivity(d);
             }
         });

@@ -3,8 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
-        android:src="@drawable/logo_large_icon"
+        android:padding="3dp"
+        android:scaleType="centerCrop"
         android:id="@+id/imageViewUnit"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_width="@dimen/stall_size"
+        android:layout_height="@dimen/stall_size" />
 </LinearLayout>

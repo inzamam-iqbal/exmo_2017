@@ -68,8 +68,10 @@ public class DayTwo extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(getActivity().getApplicationContext(),
-                        UnitStallActivity.class).putExtra("tag",scheduleItemsKeys.get(i)));
+                Intent d=new Intent(getActivity().getApplicationContext(),UnitStallActivity.class);
+                d.putExtra("stallName",scheduleItems.get(i).getTitle());
+                d.putExtra("tag",scheduleItemsKeys.get(i));
+                startActivity(d);
             }
         });
 

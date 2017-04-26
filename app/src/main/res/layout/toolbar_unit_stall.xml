@@ -40,6 +40,7 @@
     </android.support.design.widget.AppBarLayout>
 
 
+
     <include layout="@layout/content_unit_stall"/>
 
     <android.support.design.widget.FloatingActionButton
@@ -50,5 +51,16 @@
         android:src="@android:drawable/ic_dialog_map"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_gravity="bottom|end"
+        android:id="@+id/feedBack_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lvItems"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/stat_notify_chat" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>

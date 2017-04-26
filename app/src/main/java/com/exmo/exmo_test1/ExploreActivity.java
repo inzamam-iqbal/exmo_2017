@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class ExploreActivity  extends NavBar {
 
-    ArrayList<Integer> departmentImages;
+    ArrayList<Integer> departmentImages,departmentKey;
     ArrayList<String> departmentNames;
     ArrayList<String> eventKeys;
     ArrayList<ArrayList<DepartmentEvents>> allDepartmentEvents;
@@ -47,31 +47,34 @@ public class ExploreActivity  extends NavBar {
 
 
         allDepartmentEvents =new ArrayList<>();
+        departmentKey =new ArrayList<>();
         departmentNames =new ArrayList<>();
         departmentImages =new ArrayList<>();
         eventKeys = new ArrayList<>();
 
         final ArrayList<String> allDeps=new ArrayList<>();
-        allDeps.add("Bio Medical Engineering");
-        allDeps.add("Chemical Engineering");
+        allDeps.add("Chemical & Process Engineering");
         allDeps.add("Civil Engineering");
-        allDeps.add("Computer Science Engineering");
-        allDeps.add("Earth Reasource Engineering");
+        allDeps.add("Computer Science & Engineering");
+        allDeps.add("Earth Resource Engineering");
         allDeps.add("Electrical Engineering");
-        allDeps.add("Electronics and Telecommunication Engineering");
-        allDeps.add("Material Science Engineering");
+        allDeps.add("Electronics & Telecommunication Engineering");
+        allDeps.add("Fashion Design & Product Development");
+        allDeps.add("Material Science & Engineering");
         allDeps.add("Mechanical Engineering");
-        allDeps.add("Textile Engineering");
-        allDeps.add("Transport and Logistic");
+        allDeps.add("Textile & Clothing Technology");
+        allDeps.add("Transport & Logistic Management");
+
+
 
         final ArrayList<Integer> allDepsImg=new ArrayList<>();
-        allDepsImg.add(R.drawable.bme);
         allDepsImg.add(R.drawable.ch);
         allDepsImg.add(R.drawable.ce);
         allDepsImg.add(R.drawable.cse);
         allDepsImg.add(R.drawable.em);
         allDepsImg.add(R.drawable.ee);
         allDepsImg.add(R.drawable.entc);
+        allDepsImg.add(R.drawable.fd);
         allDepsImg.add(R.drawable.mt);
         allDepsImg.add(R.drawable.me);
         allDepsImg.add(R.drawable.tm);
@@ -79,16 +82,19 @@ public class ExploreActivity  extends NavBar {
 
 
 
-        exploreMainAdapter=new ExploreMainAdapter(ExploreActivity.this, departmentNames,departmentImages, allDepartmentEvents);
+
+        exploreMainAdapter=new ExploreMainAdapter(ExploreActivity.this, departmentNames,departmentImages, allDepartmentEvents,departmentKey);
         ListView listView=(ListView)findViewById(R.id.explore_main_list);
         listView.setAdapter(exploreMainAdapter);
 
-
         FirebaseDatabase.getInstance().getReference().child("departmentEvents").
-                addListenerForSingleValueEvent(new ValueEventListener() {
+                addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            if(departmentKey.contains(Integer.parseInt(snapshot.getKey())))
+                                continue;
+                            departmentKey.add(Integer.parseInt(snapshot.getKey()));
                             departmentNames.add(allDeps.get(Integer.parseInt(snapshot.getKey())));
                             departmentImages.add(allDepsImg.get(Integer.parseInt(snapshot.getKey())));
                             Log.e("departmentNames",allDeps.get(Integer.parseInt(snapshot.getKey())));

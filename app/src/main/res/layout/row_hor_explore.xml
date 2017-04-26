@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:background="@color/even"
     android:id="@+id/rel"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/stall_size"
@@ -8,12 +9,15 @@
         android:layout_width="@dimen/stall_size"
         android:layout_height="@dimen/stall_size" />
     <TextView
-        android:layout_marginTop="15dp"
-        android:textStyle="bold"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:maxLines="3"
+        android:gravity="center"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:text="one"
+        android:text="Loading..."
         android:id="@+id/textViewStallName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
+        android:layout_width="@dimen/stall_size"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 </RelativeLayout>

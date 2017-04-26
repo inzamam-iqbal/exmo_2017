@@ -1,22 +1,20 @@
 package com.exmo.exmo_test1;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.exmo.exmo_test1.Entities.EventLocation;
-import com.exmo.exmo_test1.Entities.Schedule;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -24,9 +22,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.exmo.exmo_test1.Parent.NavBar;
@@ -37,10 +38,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 
-public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener{
+public class MapActivity extends NavBar implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
 
@@ -53,6 +53,10 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
     private NavigationView navigationView;
     private ArrayList<Marker> stallMarkers;
     private DrawerLayout drawer;
+    private ArrayList<Marker> permanentMarkers;
+    private String keyStall;
+    private String keyDept;
+    ArrayList<String> allDeps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +83,27 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
         buildGoogleApiClient();
         mGoogleApiClient.connect();
 
+        allDeps = new ArrayList<>();
+        allDeps.add("Chemical & Process Engineering");
+        allDeps.add("Civil Engineering");
+        allDeps.add("Computer Science & Engineering");
+        allDeps.add("Earth Resource Engineering");
+        allDeps.add("Electrical Engineering");
+        allDeps.add("Electronics & Telecommunication Engineering");
+        allDeps.add("Fashion Design & Product Development");
+        allDeps.add("Material Science & Engineering");
+        allDeps.add("Mechanical Engineering");
+        allDeps.add("Textile & Clothing Technology");
+        allDeps.add("Transport & Logistic Management");
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //zoom to Mora
+
+
         LatLng mora = new LatLng(6.796834, 79.900737);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mora));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
@@ -94,10 +112,22 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
 
         getData();
 
-        addPermanentMarkers(); //this method add permanent markers like markers for depratment
-        stallMarkers = new ArrayList<>();
-        //Add markers from the data obtained from the db
+        addPermanentMarkers();
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
+
+//        LatLngBounds newarkBounds = new LatLngBounds(
+//                new LatLng(6.796526, 79.899392),       // South west corner
+//                new LatLng(6.797205, 79.900822));      // North east corner
+//        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
+//                .image(BitmapDescriptorFactory.fromResource(R.drawable.svg_test))
+//                .positionFromBounds(newarkBounds);
+
+//        mMap.addGroundOverlay(newarkMap);
 
     }
 
@@ -107,21 +137,76 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
         if (mMap != null){
             mMap.setOnMarkerClickListener(this);
         }
+
+        keyStall=getIntent().getStringExtra("KeyStall");
+        keyDept=getIntent().getStringExtra("KeyDept");
+
+
+        Log.e("keyStall",keyStall+"");
+        Log.e("keyDept",keyDept+"");
+
+    }
+
+    private void zoomToMarker(String key) {
+
+        Log.e("zoomToMarker",key+"");
+        Marker selected  = null;
+
+
+
+        for (Marker marker: permanentMarkers){
+
+            Log.e("mrker tag",marker.getTag().toString()+"");
+            if (marker.getTag().toString().equals(key)){
+                selected = marker;
+            }
+        }
+
+        if(selected == null){
+            for (Marker marker:stallMarkers){
+                if (eventLocationKey.get((Integer) marker.getTag()).equals(key)){
+                    selected = marker;
+                }
+            }
+        }
+
+
+        if (selected != null){
+            Log.e("selected", selected.getTag().toString());
+            LatLng loc =selected.getPosition();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo((float) 20));
+        }
+
     }
 
     //this method add permanent markers like markers for depratment
     private void addPermanentMarkers() {
-        addPermanentMarkerHelper(6.796975, 79.900260, "Computer Science and Engineering");
-        addPermanentMarkerHelper(6.796404, 79.899769, "Earth Resource Engineering");
+        permanentMarkers = new ArrayList<>();
+        addPermanentMarkerHelper(6.796975, 79.900260,0+"");
+        addPermanentMarkerHelper(6.796404, 79.899769,1+"");
+        addPermanentMarkerHelper(6.796414, 79.899779,2+"");
+        addPermanentMarkerHelper(6.796975, 79.900260,3+"");
+        addPermanentMarkerHelper(6.796404, 79.899769,4+"");
+        addPermanentMarkerHelper(6.796414, 79.899779,5+"");
+        addPermanentMarkerHelper(6.796975, 79.900260,6+"");
+        addPermanentMarkerHelper(6.796404, 79.899769,7+"");
+        addPermanentMarkerHelper(6.796414, 79.899779,8+"");
+        addPermanentMarkerHelper(6.796975, 79.900260,9+"");
+        addPermanentMarkerHelper(6.796404, 79.899769,10+"");
+
 
 
     }
 
-    private void addPermanentMarkerHelper(Double lat, Double lang, String title){
+    private void addPermanentMarkerHelper(Double lat, Double lang,String tag){
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.marker);
         LatLng location = new LatLng(lat, lang);
-        mMap.addMarker(new MarkerOptions().position(location).
-                title(title).
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        MarkerOptions opt = new MarkerOptions().position(location).
+                icon(icon);
+        Marker m =  mMap.addMarker(opt);
+        m.setTag(tag);
+        permanentMarkers.add(m);
     }
 
 
@@ -160,6 +245,7 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
 
         eventLocations = new ArrayList<>();
         eventLocationKey = new ArrayList<>();
+        stallMarkers = new ArrayList<>();
 
         dbSCheduleRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -168,15 +254,27 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
                     eventLocations.add(snapShot.getValue(EventLocation.class));
                     eventLocationKey.add(snapShot.getKey());
                 }
+
+                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.marker1);
                 int i=0;
                 for (EventLocation eventLocation: eventLocations){
                     LatLng location = new LatLng(eventLocation.getLat(), eventLocation.getLang());
-                    MarkerOptions markerOpt = new MarkerOptions().position(location).visible(false);
+                    MarkerOptions markerOpt = new MarkerOptions().
+                            position(location).
+                            icon(icon).
+                            visible(false);
                     Marker marker =mMap.addMarker(markerOpt);
                     marker.setTag(i);
                     stallMarkers.add(marker);
 
                     i+=1;
+                }
+
+                if(keyStall!=null){
+                    zoomToMarker(keyStall);
+                }
+                if(keyDept!=null){
+                    zoomToMarker(keyDept);
                 }
             }
 
@@ -193,58 +291,68 @@ public class MapActivity extends NavBar implements OnMapReadyCallback,GoogleApiC
     public void onCameraIdle () {
 
         Log.e("zoom",""+mMap.getCameraPosition().zoom);
-        if (mMap.getCameraPosition().zoom>18.1){
-            for (Marker marker: stallMarkers){
-                marker.setVisible(true);
-            }
-        }else{
-            for (Marker marker: stallMarkers){
-                marker.setVisible(false);
+        if (stallMarkers != null){
+            if (mMap.getCameraPosition().zoom>18.1){
+                for (Marker marker: stallMarkers){
+                    marker.setVisible(true);
+                }
+            }else{
+                for (Marker marker: stallMarkers){
+                    marker.setVisible(false);
+                }
             }
         }
+
     }
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        boolean found = false;
+        boolean foundStall = false;
         for (Marker m:stallMarkers){
             if (m.getTag()==marker.getTag()){
-                found=true;
+                foundStall =true;
                 break;
             }
         }
-        if (!found){
-            return false;
+        if (foundStall){
+            Snackbar snackbar1 = Snackbar.make(drawer,
+                    eventLocations.get((Integer)marker.getTag()).getTitle(), Snackbar.LENGTH_INDEFINITE).
+                    setAction("More", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent d=new Intent(MapActivity.this,UnitStallActivity.class);
+                            d.putExtra("tag",eventLocationKey.get((Integer)marker.getTag()));
+                            d.putExtra("stallName",eventLocations.get((Integer)marker.getTag()).getTitle());
+                            startActivity(d);
+                        }
+                    });
+            snackbar1.show();
         }
 
-        Snackbar snackbar1 = Snackbar.make(drawer,
-                eventLocations.get((Integer)marker.getTag()).getTitle(), Snackbar.LENGTH_INDEFINITE).
-                setAction("more detail", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent d=new Intent(MapActivity.this,UnitStallActivity.class);
-                d.putExtra("tag",eventLocationKey.get((Integer)marker.getTag()));
-                startActivity(d);
+        boolean foundDep = false;
+        for (Marker m:permanentMarkers){
+            if (m.getTag()==marker.getTag()){
+                foundDep =true;
+                break;
             }
-        });
-        snackbar1.show();
+        }
+        if (foundDep){
+            Snackbar snackbar1 = Snackbar.make(drawer,
+                    allDeps.get(Integer.parseInt(marker.getTag().toString())), Snackbar.LENGTH_INDEFINITE).
+                    setAction("More", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent d=new Intent(MapActivity.this,UnitDepartmentActivity.class);
+                            d.putExtra("DepNum",marker.getTag().toString());
+                            startActivity(d);
+                        }
+                    });
+            snackbar1.show();
+        }
+
         return false;
     }
 
-   /* private void customizeMap(){
-        try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            boolean success = mMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.style_json));
-
-            if (!success) {
-                Log.e("error", "Style parsing failed.");
-            }
-        } catch (Resources.NotFoundException e) {
-            Log.e("error", "Can't find style. Error: ", e);
-        }
-    }*/
 
 }
+
