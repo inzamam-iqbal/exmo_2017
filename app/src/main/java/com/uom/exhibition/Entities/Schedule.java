@@ -1,5 +1,7 @@
 package com.uom.exhibition.Entities;
 
+import android.support.annotation.NonNull;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -8,11 +10,13 @@ import java.util.Map;
 /**
  * Created by Inzimam on 4/11/2017.
  */
-public class Schedule {
+public class Schedule implements Comparable<Schedule> {
     String department;
     String title;
     String time;
     Integer day;
+    @Exclude
+    String key;
 
     public Schedule() {
     }
@@ -59,6 +63,15 @@ public class Schedule {
     }
 
     @Exclude
+    public String getKey() {
+        return key;
+    }
+    @Exclude
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Exclude
     public String getProperTime(){
         return time.substring(0,2) + ":" + time.substring(2);
     }
@@ -71,5 +84,16 @@ public class Schedule {
         result.put("time",time);
         result.put("day",day);
         return result;
+    }
+
+    @Override
+    public int compareTo(@NonNull Schedule schedule) {
+        if (Integer.parseInt(time)>Integer.parseInt(schedule.getTime())){
+            return 1;
+        }else if (Integer.parseInt(time)<Integer.parseInt(schedule.getTime())){
+            return -1;
+        }else{
+            return 0;
+        }
     }
 }

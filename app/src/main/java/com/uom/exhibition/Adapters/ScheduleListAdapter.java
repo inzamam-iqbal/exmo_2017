@@ -17,14 +17,12 @@ public class ScheduleListAdapter  extends ArrayAdapter<Schedule> {
 
     private final Activity context;
     private final ArrayList<Schedule> scheduleItems;
-    private final ArrayList<String> scheduleItemsKeys;
     ArrayList<String> allDeps;
 
-    public ScheduleListAdapter(Activity context, ArrayList<Schedule> scheduleItems, ArrayList<String> scheduleItemsKeys) {
+    public ScheduleListAdapter(Activity context, ArrayList<Schedule> scheduleItems) {
         super(context, R.layout.row_schedule, scheduleItems);
         this.context = context;
         this.scheduleItems = scheduleItems;
-        this.scheduleItemsKeys = scheduleItemsKeys;
 
         allDeps=new ArrayList<>();
         allDeps.add("Chemical & Process Engineering");

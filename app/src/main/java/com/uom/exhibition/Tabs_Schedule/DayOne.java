@@ -22,11 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DayOne extends Fragment {
 
     ArrayList<Schedule> scheduleItems;
-    ArrayList<String> scheduleItemsKeys;
     ScheduleListAdapter scheduleListAdapter;
     DatabaseReference dbDay1Ref;
     ListView listView;
@@ -35,7 +35,6 @@ public class DayOne extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         scheduleItems = new ArrayList<>();
-        scheduleItemsKeys = new ArrayList<>();
         dbDay1Ref = FirebaseDatabase.getInstance().getReference().child("schedule").child("day1");
 
     }
@@ -46,7 +45,7 @@ public class DayOne extends Fragment {
 
         populateArray();
 
-        scheduleListAdapter=new ScheduleListAdapter(getActivity(),scheduleItems,scheduleItemsKeys);
+        scheduleListAdapter=new ScheduleListAdapter(getActivity(),scheduleItems);
         listView=(ListView)rootView.findViewById(R.id.list_day_one);
         listView.setAdapter(scheduleListAdapter);
 
@@ -54,11 +53,15 @@ public class DayOne extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    scheduleItems.add(snapshot.getValue(Schedule.class));
-                    scheduleItemsKeys.add(snapshot.getKey());
+                    Schedule temp =snapshot.getValue(Schedule.class);
+                    temp.setKey(snapshot.getKey());
+                    scheduleItems.add(temp);
                     Log.e("day1:name", scheduleItems.get(0).getTitle());
                     scheduleListAdapter.notifyDataSetChanged();
                 }
+
+                Collections.sort(scheduleItems);
+                scheduleListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -72,7 +75,7 @@ public class DayOne extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent d=new Intent(getActivity().getApplicationContext(),UnitStallActivity.class);
                 d.putExtra("stallName",scheduleItems.get(i).getTitle());
-                d.putExtra("tag",scheduleItemsKeys.get(i));
+                d.putExtra("tag",scheduleItems.get(i).getKey());
                 startActivity(d);
             }
         });

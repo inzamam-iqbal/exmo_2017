@@ -11,7 +11,6 @@
         android:id="@+id/more_info_layout">
         <ImageView
             android:scaleType="centerCrop"
-            android:src="@drawable/three"
             android:id="@+id/dep_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

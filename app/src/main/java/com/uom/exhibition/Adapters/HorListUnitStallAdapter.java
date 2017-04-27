@@ -64,7 +64,7 @@ public class HorListUnitStallAdapter extends ArrayAdapter<String> {
 
                 android.view.ViewGroup.LayoutParams layoutParams = imageViewPop.getLayoutParams();
                 layoutParams.width = 1000;
-                layoutParams.height = 1000;
+                layoutParams.height = 1200;
                 imageViewPop.setLayoutParams(layoutParams);
                 builder.show();
 

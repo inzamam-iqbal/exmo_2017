@@ -21,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class DayTwo extends Fragment {
 
     ArrayList<Schedule> scheduleItems;
-    ArrayList<String> scheduleItemsKeys;
     ScheduleListAdapter scheduleListAdapter;
     DatabaseReference dbDay2Ref;
 
@@ -35,7 +37,6 @@ public class DayTwo extends Fragment {
         super.onCreate(savedInstanceState);
 
         scheduleItems = new ArrayList<>();
-        scheduleItemsKeys = new ArrayList<>();
         dbDay2Ref = FirebaseDatabase.getInstance().getReference().child("schedule").child("day2");
     }
 
@@ -45,7 +46,7 @@ public class DayTwo extends Fragment {
 
         populateArray();
 
-        scheduleListAdapter=new ScheduleListAdapter(getActivity(),scheduleItems,scheduleItemsKeys);
+        scheduleListAdapter=new ScheduleListAdapter(getActivity(),scheduleItems);
         ListView listView=(ListView)rootView.findViewById(R.id.list_day_two);
         listView.setAdapter(scheduleListAdapter);
 
@@ -53,10 +54,14 @@ public class DayTwo extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    scheduleItems.add(snapshot.getValue(Schedule.class));
-                    scheduleItemsKeys.add(snapshot.getKey());
+                    Schedule temp =snapshot.getValue(Schedule.class);
+                    temp.setKey(snapshot.getKey());
+                    scheduleItems.add(temp);
                     scheduleListAdapter.notifyDataSetChanged();
                 }
+
+                Collections.sort(scheduleItems);
+                scheduleListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -70,7 +75,7 @@ public class DayTwo extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent d=new Intent(getActivity().getApplicationContext(),UnitStallActivity.class);
                 d.putExtra("stallName",scheduleItems.get(i).getTitle());
-                d.putExtra("tag",scheduleItemsKeys.get(i));
+                d.putExtra("tag",scheduleItems.get(i).getKey());
                 startActivity(d);
             }
         });
