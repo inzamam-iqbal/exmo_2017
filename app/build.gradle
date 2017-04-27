@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
     defaultConfig {
-        applicationId "com.exmo.exmo_test1"
+        applicationId "com.uom.exhibition"
         minSdkVersion 14
         targetSdkVersion 20
         versionCode 1

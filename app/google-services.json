@@ -36,6 +36,99 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090028210984:android:98cb87061a8fd5e9",
+        "android_client_info": {
+          "package_name": "exmo.exmo_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090028210984-mrfp9vrcdmbe73jor0a1sfpk4al6su3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWZ80BVPnhT891ZSh6yvKSMLCm-h-Fr5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090028210984:android:254b513e120b55ce",
+        "android_client_info": {
+          "package_name": "com.uom.exmo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090028210984-mrfp9vrcdmbe73jor0a1sfpk4al6su3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWZ80BVPnhT891ZSh6yvKSMLCm-h-Fr5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090028210984:android:fedc441d94762480",
+        "android_client_info": {
+          "package_name": "com.uom.exhibition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090028210984-mrfp9vrcdmbe73jor0a1sfpk4al6su3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWZ80BVPnhT891ZSh6yvKSMLCm-h-Fr5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

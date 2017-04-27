@@ -11,7 +11,7 @@
         android:id="@+id/more_info_layout">
         <ImageView
             android:scaleType="centerCrop"
-            android:src="@drawable/test"
+            android:src="@drawable/three"
             android:id="@+id/dep_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -28,14 +28,12 @@
         <TextView
             android:textSize="15dp"
             android:shadowColor="#000000"
-
-
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:padding="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Computer Science Engineering"
+            android:text="Loading..."
             android:id="@+id/txt_dep_name" />
     </RelativeLayout>
 
