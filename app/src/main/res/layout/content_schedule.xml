@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.uom.exhibition.ScheduleActivity"
+    tools:context="com.moratuwa.exhibition.ScheduleActivity"
     tools:showIn="@layout/toolbar_schedule">
 
     <!--code here-->

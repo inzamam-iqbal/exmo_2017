@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.uom.exhibition">
+    package="com.moratuwa.exhibition">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.uom.exhibition.ExmmoApp"
+        android:name="com.moratuwa.exhibition.ExmmoApp"
         android:allowBackup="true"
         android:icon="@drawable/logo_large_icon"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.uom.exhibition.SplashActivity"
+            android:name="com.moratuwa.exhibition.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,27 +23,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.uom.exhibition.ScheduleActivity"
+            android:name="com.moratuwa.exhibition.ScheduleActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.uom.exhibition.MapActivity"
+            android:name="com.moratuwa.exhibition.MapActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.uom.exhibition.ExploreActivity"
+            android:name="com.moratuwa.exhibition.ExploreActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.uom.exhibition.LiveStreamActivity"
+            android:name="com.moratuwa.exhibition.LiveStreamActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.uom.exhibition.UnitStallActivity"
+            android:name="com.moratuwa.exhibition.UnitStallActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.uom.exhibition.UnitDepartmentActivity"
+            android:name="com.moratuwa.exhibition.UnitDepartmentActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <!--
